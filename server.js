@@ -379,3 +379,31 @@ const viewEmployeeByMgr = () => {
     }
   );
 };
+
+const removeEmployee = () => {
+  connection.query("SELECT * FROM employee", (err, res) => {
+    let arr = res.map((employee) => {
+      return {
+        name: employee.first_name + " " + employee.last_name,
+        value: employee.id,
+      };
+    });
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          message: `"Which employee would you like to remove?"`,
+          name: "terminate",
+          choices: arr,
+        },
+      ])
+      .then((remove) => {
+        let removeThis = remove.terminate;
+        connection.query(`DELETE FROM employee WHERE id=${removeThis}`);
+        if (err) throw err;
+        console.log("Employee successfully removed.");
+        mainMenu();
+      });
+  });
+};
+
