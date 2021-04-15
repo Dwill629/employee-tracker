@@ -433,3 +433,30 @@ const removeRole = () => {
       });
   });
 };
+
+const removeDept = () => {
+  connection.query("SELECT * FROM department", (err, res) => {
+    let arr = res.map((department) => {
+      return {
+        name: department.department_name,
+        value: department.id,
+      };
+    });
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          message: `"Which department would you like to remove?"`,
+          name: "terminate",
+          choices: arr,
+        },
+      ])
+      .then((remove) => {
+        let removeThis = remove.terminate;
+        connection.query(`DELETE FROM department WHERE id=${removeThis}`);
+        if (err) throw err;
+        console.log("Department successfully removed.");
+        mainMenu();
+      });
+  });
+};
