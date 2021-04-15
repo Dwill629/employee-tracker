@@ -407,3 +407,29 @@ const removeEmployee = () => {
   });
 };
 
+const removeRole = () => {
+  connection.query("SELECT * FROM roles", (err, res) => {
+    let arr = res.map((roles) => {
+      return {
+        name: roles.title,
+        value: roles.id,
+      };
+    });
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          message: `"Which role would you like to remove?"`,
+          name: "terminate",
+          choices: arr,
+        },
+      ])
+      .then((remove) => {
+        let removeThis = remove.terminate;
+        connection.query(`DELETE FROM roles WHERE id=${removeThis}`);
+        if (err) throw err;
+        console.log("Role successfully removed.");
+        mainMenu();
+      });
+  });
+};
