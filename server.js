@@ -249,3 +249,17 @@ const viewDepartments = () => {
     mainMenu();
   });
 };
+
+const viewRoles = () => {
+  connection.query(
+    `SELECT roles.id, roles.title, roles.salary, (department.department_name) department
+    FROM roles 
+    LEFT JOIN department
+    ON roles.department_id = department.id;`,
+    (err, res) => {
+      if (err) throw err;
+      printTable(res);
+      mainMenu();
+    }
+  );
+};
