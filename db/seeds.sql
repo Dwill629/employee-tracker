@@ -16,7 +16,7 @@ VALUES
 
 INSERT INTO employee(first_name, last_name, role_id)
 values 
-("SUSAN", "SMITH", 1);
+("KEVIN", "DURANT", 1);
 
 
 SELECT employee.id, employee.first_name, employee.last_name, roles.title, CONCAT(manager.first_name, " ", manager.last_name) manager
