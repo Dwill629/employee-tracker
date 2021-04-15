@@ -460,3 +460,21 @@ const removeDept = () => {
       });
   });
 };
+
+const departmentBudget = () => {
+  connection.query(
+    `SELECT department_id AS id, 
+    department.department_name AS departments,
+    SUM(salary) AS salaries
+    FROM  roles  
+    INNER JOIN department ON roles.department_id = department.id GROUP BY roles.department_id;`,
+    (err, res) => {
+      if (err) throw err;
+      printTable(res);
+      mainMenu();
+    }
+  );
+
+};
+
+init();
