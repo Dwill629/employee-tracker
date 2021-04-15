@@ -362,3 +362,20 @@ const updateEmployeeMgr = () => {
       });
   });
 };
+
+const viewEmployeeByMgr = () => {
+  connection.query(
+    `SELECT CONCAT(manager.first_name, " ", manager.last_name) manager, CONCAT(employee.first_name, ' ', employee.last_name) AS employee, roles.title
+    FROM employee 
+    LEFT JOIN employee manager
+    ON manager.id=employee.manager_id
+	  INNER JOIN roles 
+    ON employee.role_id=roles.id
+    ORDER BY manager;`,
+    (err, res) => {
+      if (err) throw err;
+      printTable(res);
+      mainMenu();
+    }
+  );
+};
