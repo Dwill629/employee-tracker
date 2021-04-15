@@ -106,3 +106,28 @@ const mainMenu = () => {
       }
     });
 };
+
+const addDepartment = () => {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What is the name of the department you are adding?",
+        name: "addDepartment",
+      },
+    ])
+    .then((response) => {
+      connection.query(
+        "INSERT INTO department SET ?",
+        {
+          department_name: response.addDepartment,
+        },
+        (err) => {
+          if (err) throw err;
+          console.log("Your department was created successfully!");
+
+          mainMenu();
+        }
+      );
+    });
+};
